@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="./model.js"></script>
+    <title>Document</title>
+    <style>
+        div {
+            max-width: 1000px;
+            max-height: 600;
+            margin: auto;
+        }
+
+        h3 {
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h3>Лет с начала симуляции:</h3>
+        <input type="number" id="years">
+        <canvas id="results"></canvas>
+    </div>
+</body>
+<script>
+    let results = [20, 20, 20, 20, 20, 20];
+    let yearsPassed = 0;
+
+    const years = document.getElementById('years');
+    years.addEventListener('change', () => {
+        yearsPassed += 1;
+        updateData(chart, runSimulation(years.value));
+    })
+
+    function updateData(chart, data) {
+        chart.data.datasets[0].data = data;
+        chart.data.datasets[0].label = `Число купцов разных классов в гильдии после ${yearsPassed} лет торговли`;
+        chart.update();
+    }
+
+    const ctx = document.getElementById('results').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'bar',
+
+        data: {
+            labels: ["Альтруист", "Кидала", "Хитрец", "Непредсказуемый", "Злопамятный", "Ушлый"],
+            datasets: [{
+                label: `Число купцов разных классов в гильдии после ${yearsPassed} лет торговли`,
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: results,
+            }]
+        },
+
+        options: {}
+    });
+</script>
+
+</html>
